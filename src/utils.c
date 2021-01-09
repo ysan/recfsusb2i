@@ -31,6 +31,7 @@ void parseOption(int argc, char * const argv[], struct Args* args)
 		static struct option long_options[] = {
 			{"dev", required_argument, NULL, 200},
 			{"nd", no_argument, NULL, 500},
+			{"np", no_argument, NULL, 600},
 			{0, 0, 0, 0}
 		};
 		c = getopt_long(argc, argv, "v", long_options, &option_index);
@@ -45,6 +46,9 @@ void parseOption(int argc, char * const argv[], struct Args* args)
 			break;
 		case 500:   //# disable descrambling (STD-B25)
 			args->flags |= 0x1000;
+			break;
+		case 600:   //# disable parser
+			args->flags |= 0x10000;
 			break;
 		}
 	}
@@ -230,8 +234,8 @@ struct OutputBuffer* create_FileBufferedWriter(unsigned  bufSize, const char* co
 }
 
 #ifdef STD_B25
-#include <aribb25/arib_std_b25.h>
-#include <aribb25/b_cas_card.h>
+#include <arib25/arib_std_b25.h>
+#include <arib25/b_cas_card.h>
 #endif
 
 #define TS_PACKET_SIZE  188

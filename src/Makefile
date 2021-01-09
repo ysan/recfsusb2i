@@ -1,30 +1,40 @@
-CC	?= gcc
-CFLAGS	 = -DDEBUG -O2 -Wall
-OBJS	 = main.o utils.o message.o osdepend.o usbdevfile.o usbops.o it9175.o it9175_usb.o tsthread.o
-LIBS	 = -lpthread
-TARGET	 = recfsusb2i
+#
+#   Defines
+#
+BASEDIR		:=	../
 
-ifdef B25
-LIBS	+= $(shell pkg-config --libs aribb25)
-CFLAGS_utils	+= -DSTD_B25 $(shell pkg-config --cflags aribb25)
-endif
-ifeq ($(shell getconf LONG_BIT),32)
-CFLAGS	+= -D_FILE_OFFSET_BITS=64
-endif
+#CFLAGS		:=	-DDEBUG -O2 -Wall -DSTD_B25
+CFLAGS		:=	-DDEBUG -O2 -Wall
 
-all: $(TARGET)
+#INCLUDES	:= -I./ $(shell pkg-config --cflags libarib25)
+INCLUDES	:= -I./
 
-clean:
-	rm -f $(OBJS) $(TARGET)
+#LIBS		:= -lpthread $(shell pkg-config --libs libarib25)
+LIBS		:= -lpthread
 
-$(TARGET): $(OBJS)
-	$(CC) -o $(TARGET) $(OBJS) $(LIBS)
+USERDEFS	:= \
 
-depend:
-	$(CC) -MM $(OBJS:.o=.c) > Makefile.dep
+SUBDIRS		:= \
 
--include Makefile.dep
+#
+#   Target object
+#
+TARGET_NAME	:=	recfsusb2i
 
-utils.o :
-	$(CC) $(CFLAGS) $(CFLAGS_utils) -c -o $@ $(@:.o=.c)
+#
+#   Target type
+#     (EXEC/SHARED/STATIC/OBJECT)
+#
+TARGET_TYPE	:=	EXEC
 
+#
+#   Compile sources
+#
+SRCS	:= \
+	main.c utils.c message.c osdepend.c usbdevfile.c usbops.c it9175.c it9175_usb.c tsthread.c
+
+
+#
+#   Configurations
+#
+include $(BASEDIR)/Config.mak

@@ -118,13 +118,17 @@ int main(int argc, char **argv)
 		warn_msg(0,"failed to init FileBufferedWriter.");
 		ret = 70;	goto end4;
 	}else{
-		struct OutputBuffer * const  pFileBufferedWriter = pOutputBuffer;
-		j = (args.flags & 0x1000)? 0 : 1 ;
-		pOutputBuffer = create_TSParser( 8192, pFileBufferedWriter, j );
-		if(! pOutputBuffer ) {
-			warn_msg(0,"failed to init TS Parser.");
-			OutputBuffer_release(pFileBufferedWriter);
-			ret = 71;	goto end4;
+		if (args.flags & 0x10000) {
+			;; // not create_TSParser
+		} else {
+			struct OutputBuffer * const  pFileBufferedWriter = pOutputBuffer;
+			j = (args.flags & 0x1000)? 0 : 1 ;
+			pOutputBuffer = create_TSParser( 8192, pFileBufferedWriter, j );
+			if(! pOutputBuffer ) {
+				warn_msg(0,"failed to init TS Parser.");
+				OutputBuffer_release(pFileBufferedWriter);
+				ret = 71;	goto end4;
+			}
 		}
 	}
 	//# change signal handler
