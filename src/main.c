@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 		ret = 70;	goto end4;
 	}else{
 		if (args.flags & 0x10000) {
-			;; // not create_TSParser
+			msg ("not create_TSParser\n");
 		} else {
 			struct OutputBuffer * const  pFileBufferedWriter = pOutputBuffer;
 			j = (args.flags & 0x1000)? 0 : 1 ;
