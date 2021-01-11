@@ -96,6 +96,7 @@ void setSignalHandler(const int mode, void (*func_handler)(int))
 	}
 	sigaction(SIGINT , &sa, NULL);
 	sigaction(SIGTERM, &sa, NULL);
+	sigaction(SIGUSR1, &sa, NULL);
 }
 
 void u_difftime(struct timespec* ta, struct timespec* tb, int* tsec, int* tmsec)
